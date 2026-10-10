@@ -1,0 +1,140 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User account information, role, and wishlist items",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Unique Firebase Auth user ID"
+        },
+        "email": {
+          "type": "string",
+          "description": "User email address"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User full name or display name"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["user", "admin"],
+          "description": "Access role"
+        },
+        "wishlist": {
+          "type": "array",
+          "description": "List of product IDs in user wishlist"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Account creation ISO timestamp"
+        }
+      },
+      "required": ["uid", "role", "wishlist", "createdAt"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Maison LUXE haute product catalog entry",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string",
+          "enum": ["perfume", "jewelry"]
+        },
+        "price": {
+          "type": "number"
+        },
+        "description": {
+          "type": "string"
+        },
+        "images": {
+          "type": "array"
+        },
+        "model3dUrl": {
+          "type": "string"
+        },
+        "stock": {
+          "type": "number"
+        }
+      },
+      "required": ["name", "category", "price", "description", "images"]
+    },
+    "Cart": {
+      "title": "Cart",
+      "description": "User shopping vault cart items",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array"
+        },
+        "updatedAt": {
+          "type": "string"
+        }
+      },
+      "required": ["userId", "items"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "User placed order records",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array"
+        },
+        "shippingInfo": {
+          "type": "object"
+        },
+        "totalAmount": {
+          "type": "number"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "processing", "shipped", "delivered"]
+        },
+        "paymentMethod": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        }
+      },
+      "required": ["userId", "items", "shippingInfo", "totalAmount", "status", "paymentMethod", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": {
+        "$ref": "#/entities/UserProfile"
+      },
+      "description": "Collection of user account profiles"
+    },
+    "/products/{productId}": {
+      "schema": {
+        "$ref": "#/entities/Product"
+      },
+      "description": "Catalog of perfume and jewelry products"
+    },
+    "/carts/{userId}": {
+      "schema": {
+        "$ref": "#/entities/Cart"
+      },
+      "description": "User shopping vault cart contents"
+    },
+    "/orders/{orderId}": {
+      "schema": {
+        "$ref": "#/entities/Order"
+      },
+      "description": "Customer vault order history records"
+    }
+  }
+}

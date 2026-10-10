@@ -1,0 +1,6 @@
+{
+  "name": "LUXE",
+  "description": "Luxury 3D product showcase and e-commerce platform for premium perfumes and jewelry.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

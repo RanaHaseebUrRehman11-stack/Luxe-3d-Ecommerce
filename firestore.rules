@@ -1,0 +1,27 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Products: publicly readable, write for authenticated users
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // Users: authenticated users can read and write
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null;
+    }
+
+    // Carts: each authenticated user can read and manage their own cart
+    match /carts/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Orders: authenticated users can create, read, and update orders
+    match /orders/{orderId} {
+      allow read, create, update, delete: if request.auth != null;
+    }
+  }
+}
+
